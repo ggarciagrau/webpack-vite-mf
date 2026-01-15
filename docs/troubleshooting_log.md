@@ -65,3 +65,11 @@ React components rendered without styles (e.g., no animations, default button st
       }
     }),
     ```
+
+## 6. CSS Bleeding (Global Styles)
+**Problem:**
+Remote styles from `index.css` (e.g., `body`, `button`) were affecting the host application because they were defined globally.
+
+**Solution:**
+1.  **Wrapper ID**: Wrapped the React app in a unique container ID (`#my-react-app-root`) in `mount.jsx`.
+2.  **Scoping Selectors**: Refactored `index.css` to prefix all rules with `#my-react-app-root`, ensuring styles only apply to the remote application.
