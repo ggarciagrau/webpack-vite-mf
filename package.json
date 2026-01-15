@@ -4,6 +4,6 @@
     "private": true,
     "scripts": {
         "setup": "cd my-vue-app && yarn install && cd ../my-react-app && pnpm install",
-        "start": "echo 'Run the apps in separate terminals: \"cd my-vue-app && yarn serve\" and \"cd my-react-app && pnpm preview --port 5001\"'"
+        "start": "echo 'Run the apps in separate terminals: \"cd my-vue-app && yarn serve\" and \"cd my-react-app && pnpm build && pnpm preview --port 5001\"'"
     }
 }
