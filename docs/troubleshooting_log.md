@@ -89,3 +89,19 @@ We moved the responsibility of providing React to the Vue Host (`my-vue-app`), m
     *   Moved `react` and `react-dom` to `peerDependencies` to explicitly declare that it expects the Host to provide them.
     *   Added them to `devDependencies` to ensure local development and builds still function correctly.
     *   This setup prevents React from being bundled inside the remote, significantly reducing the bundle size.
+
+## 8. Entry Points & Local Development Styles
+**Context:**
+To ensure styles work correctly in both the Host (production/federation) and Local Development (`pnpm dev`), we utilize two specific entry points.
+
+**Architecture:**
+*   **Host (Federation):** Uses `src/mount.jsx` (exposed in `vite.config.js`).
+    *   This entry point mounts the app into a specific element provided by the host.
+    *   It wraps the app in `#my-react-app-root` for scoped CSS (see Section 6).
+    *   It does **not** import `dev.css`.
+
+*   **Local Development:** Uses `src/main.jsx` (default Vite entry).
+    *   We updated this file to *also* wrap the app in `#my-react-app-root` to match the Host's environment.
+    *   It imports `dev.css` (layout styles like `height: 100vh`) which are only needed when running standalone.
+
+This separation ensures that the standalone app looks correct locally without injecting unwanted layout styles (like full-screen height) into the Host application.
