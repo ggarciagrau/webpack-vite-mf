@@ -73,3 +73,19 @@ Remote styles from `index.css` (e.g., `body`, `button`) were affecting the host 
 **Solution:**
 1.  **Wrapper ID**: Wrapped the React app in a unique container ID (`#my-react-app-root`) in `mount.jsx`.
 2.  **Scoping Selectors**: Refactored `index.css` to prefix all rules with `#my-react-app-root`, ensuring styles only apply to the remote application.
+
+## 7. Shared Dependencies (React in Host)
+**Problem:**
+If multiple React micro-frontends are used, each would bundle its own copy of React, leading to duplicate downloads and performance issues.
+
+**Solution:**
+We moved the responsibility of providing React to the Vue Host (`my-vue-app`), making it the single source of truth for the shared library.
+
+1.  **Vue Host (`my-vue-app`)**:
+    *   Installed `react` and `react-dom` as direct dependencies.
+    *   Configured `ModuleFederationPlugin` to share them (`singleton: true`, `eager: true`).
+
+2.  **React Remote (`my-react-app`)**:
+    *   Moved `react` and `react-dom` to `peerDependencies` to explicitly declare that it expects the Host to provide them.
+    *   Added them to `devDependencies` to ensure local development and builds still function correctly.
+    *   This setup prevents React from being bundled inside the remote, significantly reducing the bundle size.
