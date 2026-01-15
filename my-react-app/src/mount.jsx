@@ -7,7 +7,9 @@ export function mount(el) {
     const root = ReactDOM.createRoot(el)
     root.render(
         <React.StrictMode>
-            <App />
+            <div id="my-react-app-root">
+                <App />
+            </div>
         </React.StrictMode>
     )
     return () => {
